@@ -94,7 +94,7 @@ def pg_ready(host, port, timeout=20):
 
 def test_pg():
     with new_container(
-            image_name='postgres',
+            image_name='postgres:alpine',
             ports={'5432/tcp': 60011},
             ready_test=lambda: pg_ready('localhost', 60011)) as container:
         logger.debug(container.name)
