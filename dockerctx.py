@@ -52,8 +52,6 @@ def new_container(
                 'Container {} not ready fast enough.'.format(name)
             )
         yield container
-    except:
-        logger.exception('An error occurred:')
     finally:
         logger.info('Stopping container %s', name)
         # TODO: container.stop() does not seem to work here (e.g. for postgres)
