@@ -56,7 +56,7 @@ def new_container(
         logger.info('Stopping container %s', name)
         # TODO: container.stop() does not seem to work here (e.g. for postgres)
         container.kill()
-        logger.info(f'Removing container %s', name)
+        logger.info('Removing container %s', name)
         container.remove()
 
 

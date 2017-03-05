@@ -58,7 +58,7 @@ class Foo(Base):
     bees = relationship('Bar')
 
     def __repr__(self):
-        return f'[Foo: id={self.id} name={self.name}]'
+        return '[Foo: id={self.id} name={self.name}]'.format(**vars())
 
 
 class Bar(Base):
@@ -69,7 +69,7 @@ class Bar(Base):
     foo_id = Column(Integer, ForeignKey('foo.id'))
 
     def __repr__(self):
-        return f'[Bar: id={self.id} name={self.name} foo_id={self.foo_id}]'
+        return '[Bar: id={self.id} name={self.name} foo_id={self.foo_id}]'.format(**vars())
 
 
 def pg_ready(host, port, timeout=20):
