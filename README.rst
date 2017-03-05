@@ -1,7 +1,7 @@
 dockerctx
 =========
 
-`dockerctx` is a Context manager for managing the lifetime of a docker container.
+`dockerctx` is a context manager for managing the lifetime of a docker container.
 
 The main use case is for setting up scaffolding for running tests, where you want
 something a little broader than *unit tests*, but less heavily integrated than,
