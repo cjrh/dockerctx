@@ -66,7 +66,7 @@ This is taken from one of the tests:
         r.set('foo', 'bar')
         assert r.get('foo') == b'bar'
 
-Note that a brand, new Redis container is created here, used within the
+Note that a brand new Redis container is created here, used within the
 context of the context manager (which is wrapped into a *pytest* fixture
 here), and then the container is destroyed after the context manager
 exits.
