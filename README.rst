@@ -7,7 +7,7 @@ The main use case is for setting up scaffolding for running tests, where you wan
 something a little broader than *unit tests*, but less heavily integrated than,
 say, what you might write using `Robot framework`_.
 
-.. _The Robot framework: http://robotframework.org/
+.. _Robot framework: http://robotframework.org/
 
 Install
 -------
