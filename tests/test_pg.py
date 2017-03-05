@@ -167,7 +167,7 @@ def delete(Session, model=Foo, name='f1', sleep_before=0, sleep_after=0):
     logger.info('Leaving delete: %s', thread)
 
 
-def create_data(session: sqlalchemy.orm.Session):
+def create_data(session):
     f1 = Foo(name='f1')
     session.add(f1)
     session.commit()
@@ -178,7 +178,7 @@ def create_data(session: sqlalchemy.orm.Session):
     session.commit()
 
 
-def fetch_data(session: sqlalchemy.orm.Session):
+def fetch_data(session):
     q = session.query(Bar).filter(Bar.name == 'b1')
     logger.info(q)
     record = q.first()
