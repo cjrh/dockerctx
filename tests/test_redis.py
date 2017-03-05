@@ -26,7 +26,6 @@ def test_redis_a(f_redis):
     print('Container %s' % f_redis.name)
     r = redis.StrictRedis(host='localhost', port=56379, db=0)
     r.set('foo', 'bar')
-    assert r.get('foo') != 'bar'
     assert r.get('foo') == b'bar'
 
 
