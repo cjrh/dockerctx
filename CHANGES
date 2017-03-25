@@ -1,2 +1,4 @@
+2017.3.5
+    - Add utility get_open_port() to make it easy to get an unused port for a new container
 2017.3.4
     - Moved pg_ready() and session_scope() out of tests and into main, because they're useful.

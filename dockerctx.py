@@ -141,3 +141,21 @@ def session_scope(session_cls):
     finally:
         logger.debug('Closing session')
         session.close()
+
+
+def get_open_port():
+    """Return a currently-unused local network TCP port number
+
+    This is extremely handy when running unit tests because you may
+    not always be able to get the port of your choice, especially
+    in a continuous-integration context.
+
+    :return: TCP port number
+    :rtype: int
+    """
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(('', 0))  # Using zero means the OS assigns one
+    address_info = s.getsockname()
+    port = int(address_info[1])
+    s.close()
+    return port

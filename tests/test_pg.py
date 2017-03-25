@@ -26,7 +26,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker, relationship
 from sqllogformatter import SQLLogFormatter
-from dockerctx import new_container, pg_ready, session_scope
+from dockerctx import new_container, pg_ready, session_scope, get_open_port
 
 
 logger = logging.getLogger(__name__)
@@ -69,13 +69,14 @@ class Bar(Base):
 
 
 def test_pg():
+    port = get_open_port()
     with new_container(
             image_name='postgres:alpine',
-            ports={'5432/tcp': 60011},
-            ready_test=lambda: pg_ready('localhost', 60011)) as container:
+            ports={'5432/tcp': port},
+            ready_test=lambda: pg_ready('localhost', port)) as container:
         logger.debug(container.name)
 
-        url = "postgres://postgres@localhost:60011/mydb"
+        url = "postgres://postgres@localhost:%d/mydb" % port
         logger.info('create engine')
         if not database_exists(url):
             logger.info('create database')
