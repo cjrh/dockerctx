@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2017.3.6'
+__version__ = '2017.3.7'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
@@ -22,7 +22,8 @@ def new_container(
         new_container_name=lambda: uuid.uuid4().hex,
         ports=None,
         ready_test=None,
-        docker_api_version='auto'):
+        docker_api_version='auto',
+        **kwargs):
     """Start a docker container, and kill+remove when done.
 
     :param new_container_name: The container name. By default, a UUID will be used.
@@ -38,6 +39,9 @@ def new_container(
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
+    :param kwargs: These extra keyword arguments will be passed through to the 
+        `client.containers.run()` call.  One of the more commons ones is to pass
+        a custom command through.
 
     """
     _ = new_container_name
@@ -45,7 +49,8 @@ def new_container(
     client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
-    container = client.containers.run(image_name, name=name, detach=True, ports=ports)
+    container = client.containers.run(image_name, name=name, detach=True, ports=ports,
+                                      **kwargs)
     try:
         logger.info('Waiting for postgres to be ready')
         if ready_test and not ready_test():

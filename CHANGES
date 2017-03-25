@@ -1,3 +1,6 @@
+2017.3.7
+    - Allow kwargs to be passed through `new_container` into `client.containers.run`
+    - Add demo to show customer command
 2017.3.6
     - Add docker API version as an optional parameter
 2017.3.5
