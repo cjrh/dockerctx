@@ -21,7 +21,8 @@ def new_container(
         image_name,
         new_container_name=lambda: uuid.uuid4().hex,
         ports=None,
-        ready_test=None):
+        ready_test=None,
+        docker_api_version='auto'):
     """Start a docker container, and kill+remove when done.
 
     :param new_container_name: The container name. By default, a UUID will be used.
@@ -41,7 +42,7 @@ def new_container(
     """
     _ = new_container_name
     name = str(_() if callable(_) else _)
-    client = docker.from_env()
+    client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
     container = client.containers.run(image_name, name=name, detach=True, ports=ports)

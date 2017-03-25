@@ -10,7 +10,8 @@ def f_redis():
     with new_container(
             image_name='redis:latest',
             ports={'6379/tcp': port},
-            ready_test=lambda: time.sleep(0.5) or True) as container:
+            ready_test=lambda: time.sleep(0.5) or True,
+            docker_api_version='1.24') as container:
         yield container, port
 
 
@@ -20,7 +21,8 @@ def m_redis():
     with new_container(
             image_name='redis:alpine',
             ports={'6379/tcp': port},
-            ready_test=lambda: time.sleep(0.5) or True) as container:
+            ready_test=lambda: time.sleep(0.5) or True,
+            docker_api_version='1.24') as container:
         yield container, port
 
 

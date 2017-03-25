@@ -42,7 +42,6 @@ handler.setFormatter(SQLLogFormatter(
 sqllogger.setLevel(logging.WARNING)
 
 
-client = docker.from_env()
 Base = declarative_base()
 
 
@@ -73,7 +72,9 @@ def test_pg():
     with new_container(
             image_name='postgres:alpine',
             ports={'5432/tcp': port},
-            ready_test=lambda: pg_ready('localhost', port)) as container:
+            ready_test=lambda: pg_ready('localhost', port),
+            # Travis CI fails otherwise :`(
+            docker_api_version='1.24') as container:
         logger.debug(container.name)
 
         url = "postgres://postgres@localhost:%d/mydb" % port
