@@ -47,3 +47,12 @@ def test_redis_d(m_redis):
     print('Container %s' % m_redis.name)
     r = redis.StrictRedis(host='localhost', port=56379, db=0)
     assert r.get('foo') == b'bar'
+
+
+@pytest.mark.parametrize('value', list(range(10)))
+def test_redis_many(m_redis, value):
+    print('Container %s' % m_redis.name)
+    r = redis.StrictRedis(host='localhost', port=56379, db=0)
+    r.set('number', value)
+    r.set_response_callback('GET', int)
+    assert r.get('number') == value

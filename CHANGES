@@ -1,0 +1,2 @@
+2017.3.4
+    - Moved pg_ready() and session_scope() out of tests and into main, because they're useful.

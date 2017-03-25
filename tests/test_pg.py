@@ -11,9 +11,7 @@ a database is created, and then tables are created based on model
 descriptions (via sqlalchemy), and then finally after runnning code that
 uses the database, the container is destroyed.
 """
-import uuid
 import time
-from contextlib import contextmanager
 import threading
 import sys
 
@@ -23,14 +21,12 @@ import sqlalchemy
 import sqlalchemy.orm
 from sqlalchemy import create_engine, ForeignKey
 from sqlalchemy_utils import database_exists, create_database
-import subprocess as sp
 import logging
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import sessionmaker, relationship
 from sqllogformatter import SQLLogFormatter
-from dockerctx import new_container
-from functools import partial
+from dockerctx import new_container, pg_ready, session_scope
 
 
 logger = logging.getLogger(__name__)
@@ -70,26 +66,6 @@ class Bar(Base):
 
     def __repr__(self):
         return '[Bar: id={self.id} name={self.name} foo_id={self.foo_id}]'.format(**vars())
-
-
-def pg_ready(host, port, timeout=20):
-    import psycopg2
-    t0 = time.time()
-    while time.time() - t0 < timeout:
-        try:
-            conn = psycopg2.connect(
-                "host={host} port={port} user=postgres dbname=postgres".format(
-                    **vars())
-            )
-            logger.debug('Connected successfully.')
-            conn.close()
-            return True
-        except psycopg2.OperationalError as ex:
-            logger.debug("Connection failed: {0}".format(ex));
-        time.sleep(0.2)
-
-    logger.error('Postgres readiness check timed out.')
-    return False
 
 
 def test_pg():
@@ -184,30 +160,3 @@ def fetch_data(session):
     record = q.first()
     logger.info(record)
     return record
-
-
-@contextmanager
-def session_scope(session_cls):
-    """Provide a transactional scope around a series of operations."""
-    session = session_cls()
-    try:
-        logger.debug('Yielding session')
-        yield session
-        logger.debug('Committing session')
-        session.commit()
-    except:
-        logger.exception('Error detected, rolling back session')
-        session.rollback()
-        raise
-    finally:
-        logger.debug('Closing session')
-        session.close()
-
-
-if __name__ == '__main__':
-    logging.basicConfig(
-        level=logging.DEBUG,
-        format='%(asctime)20s %(message)s thread:%(threadName)s',
-        stream=sys.stdout
-    )
-    test_pg()
