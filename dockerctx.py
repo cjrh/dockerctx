@@ -21,6 +21,7 @@ def new_container(
         image_name,
         new_container_name=lambda: uuid.uuid4().hex,
         ports=None,
+        tmpfs=None,
         ready_test=None,
         docker_api_version='auto',
         **kwargs):
@@ -32,6 +33,12 @@ def new_container(
     :param ports: The list of port mappings to configure on the docker
         container. The format is the same as that used in the `docker`
         package, e.g. `ports={'5432/tcp': 60011}`
+    :type ports: typing.Dict[str, int]
+    :param tmpfs: When creating a container you can specify paths to be mounted 
+        with tmpfs. It can be a list or a dictionary to configure on the docker
+        container. If it's a list, each item is a string specifying the path and 
+        (optionally) any configuration for the mount, e.g. `tmpfs={'/mnt/vol2': '', 
+        '/mnt/vol1': 'size=3G,uid=1000'}`
     :type ports: typing.Dict[str, int]
     :param ready_test: A function to run to verify whether the container is "ready"
         (in some sense) before yielding the container back to the caller. An example
@@ -49,7 +56,7 @@ def new_container(
     client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
-    container = client.containers.run(image_name, name=name, detach=True, ports=ports,
+    container = client.containers.run(image_name, name=name, tmpfs=tmpfs, detach=True, ports=ports,
                                       **kwargs)
     try:
         logger.info('Waiting for postgres to be ready')
