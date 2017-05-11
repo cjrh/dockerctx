@@ -39,7 +39,7 @@ def new_container(
         container. If it's a list, each item is a string specifying the path and 
         (optionally) any configuration for the mount, e.g. `tmpfs={'/mnt/vol2': '', 
         '/mnt/vol1': 'size=3G,uid=1000'}`
-    :type ports: typing.Dict[str, int]
+    :type tmpfs: typing.Dict[str, str]
     :param ready_test: A function to run to verify whether the container is "ready"
         (in some sense) before yielding the container back to the caller. An example
         of such a test is the `accepting_connections` function in the this module,
