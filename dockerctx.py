@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2017.3.7'
+__version__ = '2017.5.1'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
@@ -39,7 +39,7 @@ def new_container(
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
-    :param kwargs: These extra keyword arguments will be passed through to the 
+    :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
         a custom command through.
 
