@@ -2,6 +2,14 @@
 .. image:: https://travis-ci.org/cjrh/dockerctx.svg?branch=master
     :target: https://travis-ci.org/cjrh/dockerctx
 
+.. image:: https://coveralls.io/repos/github/cjrh/dockerctx/badge.svg?branch=master
+    :target: https://coveralls.io/github/cjrh/dockerctx?branch=master
+
+.. image:: https://img.shields.io/pypi/pyversions/dockerctx.svg
+    :target: https://pypi.python.org/pypi/dockerctx
+
+.. image:: https://img.shields.io/github/tag/cjrh/dockerctx.svg
+
 dockerctx
 =========
 
