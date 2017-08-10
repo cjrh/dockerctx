@@ -23,6 +23,7 @@ def new_container(
         ports=None,
         tmpfs=None,
         ready_test=None,
+        privileged=None,
         docker_api_version='auto',
         **kwargs):
     """Start a docker container, and kill+remove when done.
@@ -46,6 +47,11 @@ def new_container(
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
+    :param privileged: a privileged container is given access to all devices on 
+        the host as well as set some configuration in AppArmor or SELinux to allow 
+        the container nearly all the same access to the host as processes running 
+        outside containers on the host.
+    :type ports: bool
     :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
         a custom command through.
@@ -56,7 +62,7 @@ def new_container(
     client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
-    container = client.containers.run(image_name, name=name, tmpfs=tmpfs, detach=True, ports=ports,
+    container = client.containers.run(image_name, name=name, tmpfs=tmpfs, privileged=False, detach=True, ports=ports,
                                       **kwargs)
     try:
         logger.info('Waiting for postgres to be ready')
