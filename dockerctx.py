@@ -47,10 +47,10 @@ def new_container(
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
-    :param privileged: a “privileged” container is given access to all devices on 
-    the host as well as set some configuration in AppArmor or SELinux to allow the 
-    container nearly all the same access to the host as processes running outside 
-    containers on the host.
+    :param privileged: a privileged container is given access to all devices on 
+        the host as well as set some configuration in AppArmor or SELinux to allow 
+        the container nearly all the same access to the host as processes running 
+        outside containers on the host.
     :type ports: bool
     :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
