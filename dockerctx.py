@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2017.5.1'
+__version__ = '2017.8.1'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
@@ -35,10 +35,10 @@ def new_container(
         container. The format is the same as that used in the `docker`
         package, e.g. `ports={'5432/tcp': 60011}`
     :type ports: typing.Dict[str, int]
-    :param tmpfs: When creating a container you can specify paths to be mounted 
+    :param tmpfs: When creating a container you can specify paths to be mounted
         with tmpfs. It can be a list or a dictionary to configure on the docker
-        container. If it's a list, each item is a string specifying the path and 
-        (optionally) any configuration for the mount, e.g. `tmpfs={'/mnt/vol2': '', 
+        container. If it's a list, each item is a string specifying the path and
+        (optionally) any configuration for the mount, e.g. `tmpfs={'/mnt/vol2': '',
         '/mnt/vol1': 'size=3G,uid=1000'}`
     :type tmpfs: typing.Dict[str, str]
     :param ready_test: A function to run to verify whether the container is "ready"
@@ -47,9 +47,9 @@ def new_container(
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
-    :param privileged: a privileged container is given access to all devices on 
-        the host as well as set some configuration in AppArmor or SELinux to allow 
-        the container nearly all the same access to the host as processes running 
+    :param privileged: a privileged container is given access to all devices on
+        the host as well as set some configuration in AppArmor or SELinux to allow
+        the container nearly all the same access to the host as processes running
         outside containers on the host.
     :type ports: bool
     :param kwargs: These extra keyword arguments will be passed through to the
