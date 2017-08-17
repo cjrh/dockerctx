@@ -9,6 +9,7 @@
     :target: https://pypi.python.org/pypi/dockerctx
 
 .. image:: https://img.shields.io/github/tag/cjrh/dockerctx.svg
+    :target: https://github.com/cjrh/dockerctx
 
 dockerctx
 =========
