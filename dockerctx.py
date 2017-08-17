@@ -23,7 +23,6 @@ def new_container(
         ports=None,
         tmpfs=None,
         ready_test=None,
-        privileged=None,
         docker_api_version='auto',
         **kwargs):
     """Start a docker container, and kill+remove when done.
@@ -62,8 +61,10 @@ def new_container(
     client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
-    container = client.containers.run(image_name, name=name, tmpfs=tmpfs, privileged=False, detach=True, ports=ports,
-                                      **kwargs)
+    container = client.containers.run(
+        image_name, name=name, tmpfs=tmpfs, detach=True, ports=ports,
+        **kwargs
+    )
     try:
         logger.info('Waiting for postgres to be ready')
         if ready_test and not ready_test():
