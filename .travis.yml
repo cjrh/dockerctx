@@ -4,12 +4,14 @@ services:
 language: python
 python:
   - "2.7"
-  - "3.6"
-  - "3.5"
   - "3.4"
+  - "3.5"
+  - "3.6"
+  - "nightly"
 install:
-    - "pip install -r requirements-test.txt"
+  - pip install -r requirements-test.txt
+  - pip install 'coverage>=4.0,<4.4'
+  - pip install codeclimate-test-reporter
 script:
-    PYTHONPATH=. py.test --cov dockerctx tests/
-after_success:
-    coveralls
+  - PYTHONPATH=. py.test --cov dockerctx tests/
+  - codeclimate-test-reporter --debug

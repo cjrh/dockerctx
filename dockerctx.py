@@ -74,8 +74,7 @@ def new_container(
         yield container
     finally:
         logger.info('Stopping container %s', name)
-        # TODO: container.stop() does not seem to work here (e.g. for postgres)
-        container.kill()
+        container.stop(timeout=2)
         logger.info('Removing container %s', name)
         container.remove()
 
