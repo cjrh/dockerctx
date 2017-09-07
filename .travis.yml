@@ -11,9 +11,6 @@ install:
   - pip install -r requirements-test.txt
   - pip install 'coverage>=4.0,<4.4'
   - pip install codeclimate-test-reporter
-before_script:
-  - codeclimate-test-reporter before-build
 script:
   - PYTHONPATH=. py.test --cov dockerctx tests/
-after_success:
-  - codeclimate-test-reporter after-build --exit-code $?
+  - codeclimate-test-reporter
