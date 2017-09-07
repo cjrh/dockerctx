@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2017.3.7'
+__version__ = '2017.8.2'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
@@ -21,6 +21,7 @@ def new_container(
         image_name,
         new_container_name=lambda: uuid.uuid4().hex,
         ports=None,
+        tmpfs=None,
         ready_test=None,
         docker_api_version='auto',
         **kwargs):
@@ -33,13 +34,24 @@ def new_container(
         container. The format is the same as that used in the `docker`
         package, e.g. `ports={'5432/tcp': 60011}`
     :type ports: typing.Dict[str, int]
+    :param tmpfs: When creating a container you can specify paths to be mounted
+        with tmpfs. It can be a list or a dictionary to configure on the docker
+        container. If it's a list, each item is a string specifying the path and
+        (optionally) any configuration for the mount, e.g. `tmpfs={'/mnt/vol2': '',
+        '/mnt/vol1': 'size=3G,uid=1000'}`
+    :type tmpfs: typing.Dict[str, str]
     :param ready_test: A function to run to verify whether the container is "ready"
         (in some sense) before yielding the container back to the caller. An example
         of such a test is the `accepting_connections` function in the this module,
         which will try repeatedly to connect to a socket, until either successfuly,
         or a max timeout is reached. Use functools.partial to wrap up the args.
     :type ready_test: typing.Callable[[], bool]
-    :param kwargs: These extra keyword arguments will be passed through to the 
+    :param privileged: a privileged container is given access to all devices on
+        the host as well as set some configuration in AppArmor or SELinux to allow
+        the container nearly all the same access to the host as processes running
+        outside containers on the host.
+    :type ports: bool
+    :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
         a custom command through.
 
@@ -49,8 +61,10 @@ def new_container(
     client = docker.from_env(version=docker_api_version)
 
     logger.info('New postgres container: %s', name)
-    container = client.containers.run(image_name, name=name, detach=True, ports=ports,
-                                      **kwargs)
+    container = client.containers.run(
+        image_name, name=name, tmpfs=tmpfs, detach=True, ports=ports,
+        **kwargs
+    )
     try:
         logger.info('Waiting for postgres to be ready')
         if ready_test and not ready_test():
