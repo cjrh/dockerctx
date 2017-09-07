@@ -14,4 +14,4 @@ install:
 script:
   - PYTHONPATH=. py.test --cov dockerctx tests/
 after_success:
-  - CODECLIMATE_REPO_TOKEN=$CC_TEST_REPORTER_ID codeclimate-test-reporter --file .coverage
+  - CODECLIMATE_REPO_TOKEN=$CC_TEST_REPORTER_ID codeclimate-test-reporter
