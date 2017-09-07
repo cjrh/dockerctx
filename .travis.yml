@@ -1,4 +1,7 @@
 sudo: true
+env:
+  global:
+    - CC_TEST_REPORTER_ID=f20c33ba5d54c8c1d720224b591c7d50dced52992d3970d7717f2d46ca565aaa
 services:
   - docker
 language: python
@@ -8,8 +11,9 @@ python:
   - "3.5"
   - "3.4"
 install:
-    - "pip install -r requirements-test.txt"
+  - pip install -r requirements-test.txt
+  - pip install coverage
+  - pip install codeclimate-test-reporter
 script:
-    PYTHONPATH=. py.test --cov dockerctx tests/
-after_success:
-    coveralls
+  - PYTHONPATH=. py.test --cov dockerctx tests/
+  - codeclimate-test-reporter --file .coverage
