@@ -74,7 +74,7 @@ def new_container(
         yield container
     finally:
         logger.info('Stopping container %s', name)
-        container.stop(2)
+        container.stop(timeout=2)
         logger.info('Removing container %s', name)
         container.remove()
 
