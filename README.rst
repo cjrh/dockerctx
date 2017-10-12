@@ -1,4 +1,3 @@
-
 .. image:: https://travis-ci.org/cjrh/dockerctx.svg?branch=master
     :target: https://travis-ci.org/cjrh/dockerctx
 
@@ -88,6 +87,8 @@ exits.
 In the src, there is another, much more elaborate test which
 
 #. runs a *postgres* container;
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcjrh%2Fdockerctx.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcjrh%2Fdockerctx?ref=badge_shield)
+
 #. waits for postgres to begin accepting connections;
 #. creates a database;
 #. creates tables (using the SQLAlchemy_ ORM);
@@ -96,3 +97,7 @@ In the src, there is another, much more elaborate test which
 
 .. _SQLAlchemy: http://www.sqlalchemy.org/
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fcjrh%2Fdockerctx.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fcjrh%2Fdockerctx?ref=badge_large)
