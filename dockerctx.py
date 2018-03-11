@@ -24,6 +24,7 @@ def new_container(
         tmpfs=None,
         ready_test=None,
         docker_api_version='auto',
+        persist=lambda: False,
         **kwargs):
     """Start a docker container, and kill+remove when done.
 
@@ -50,7 +51,11 @@ def new_container(
         the host as well as set some configuration in AppArmor or SELinux to allow
         the container nearly all the same access to the host as processes running
         outside containers on the host.
-    :type ports: bool
+    :type persist: typing.Callable[[], bool]
+    :param persist: If True, the docker container will NOT be destroyed
+        during exit. This is sometimes useful if you want to keep a container
+        around, but only if tests fail. (That's why it's a callable: it only
+        gets called during the "exit" phase of the context manager).
     :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
         a custom command through.
@@ -73,11 +78,14 @@ def new_container(
             )
         yield container
     finally:
-        logger.info('Stopping container %s', name)
-        # TODO: container.stop() does not seem to work here (e.g. for postgres)
-        container.kill()
-        logger.info('Removing container %s', name)
-        container.remove()
+        if persist():
+            logger.info('Leaving container up.')
+        else:
+            logger.info('Stopping container %s', name)
+            # TODO: container.stop() does not seem to work here (e.g. for postgres)
+            container.kill()
+            logger.info('Removing container %s', name)
+            container.remove()
 
 
 def accepting_connections(host, port, timeout=20):
