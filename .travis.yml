@@ -13,3 +13,9 @@ script:
     PYTHONPATH=. py.test --cov dockerctx tests/
 after_success:
     coveralls
+deploy:
+  provider: pypi
+  user:
+  password:
+  on:
+    branch: master
