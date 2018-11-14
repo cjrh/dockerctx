@@ -114,7 +114,7 @@ def accepting_connections(host, port, timeout=20):
     return False
 
 
-def pg_ready(host, port, dbuser='postgres', dbname='postgres',
+def pg_ready(host, port, dbuser='postgres', dbpass='password', dbname='postgres',
              timeout=20, poll_freq=0.2):
     """Wait until a postgres instance is ready to receive connections.
 
@@ -132,7 +132,7 @@ def pg_ready(host, port, dbuser='postgres', dbname='postgres',
     while time.time() - t0 < timeout:
         try:
             conn = psycopg2.connect(
-                "host={host} port={port} user={dbuser} "
+                "host={host} port={port} user={dbuser} password={dbpass} "
                 "dbname={dbname}".format(**vars())
             )
             logger.debug('Connected successfully.')
