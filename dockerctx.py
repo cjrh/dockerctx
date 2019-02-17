@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2017.8.2'
+__version__ = '2018.11.1'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
@@ -24,6 +24,7 @@ def new_container(
         tmpfs=None,
         ready_test=None,
         docker_api_version='auto',
+        persist=lambda: False,
         **kwargs):
     """Start a docker container, and kill+remove when done.
 
@@ -50,7 +51,11 @@ def new_container(
         the host as well as set some configuration in AppArmor or SELinux to allow
         the container nearly all the same access to the host as processes running
         outside containers on the host.
-    :type ports: bool
+    :type persist: typing.Callable[[], bool]
+    :param persist: If True, the docker container will NOT be destroyed
+        during exit. This is sometimes useful if you want to keep a container
+        around, but only if tests fail. (That's why it's a callable: it only
+        gets called during the "exit" phase of the context manager).
     :param kwargs: These extra keyword arguments will be passed through to the
         `client.containers.run()` call.  One of the more commons ones is to pass
         a custom command through.
@@ -73,10 +78,13 @@ def new_container(
             )
         yield container
     finally:
-        logger.info('Stopping container %s', name)
-        container.stop(timeout=2)
-        logger.info('Removing container %s', name)
-        container.remove()
+        if persist():
+            logger.info('Leaving container up.')
+        else:
+            logger.info('Stopping container %s', name)
+            container.stop(timeout=2)
+            logger.info('Removing container %s', name)
+            container.remove()
 
 
 def accepting_connections(host, port, timeout=20):
@@ -105,7 +113,7 @@ def accepting_connections(host, port, timeout=20):
     return False
 
 
-def pg_ready(host, port, dbuser='postgres', dbname='postgres',
+def pg_ready(host, port, dbuser='postgres', dbpass='password', dbname='postgres',
              timeout=20, poll_freq=0.2):
     """Wait until a postgres instance is ready to receive connections.
 
@@ -123,7 +131,7 @@ def pg_ready(host, port, dbuser='postgres', dbname='postgres',
     while time.time() - t0 < timeout:
         try:
             conn = psycopg2.connect(
-                "host={host} port={port} user={dbuser} "
+                "host={host} port={port} user={dbuser} password={dbpass} "
                 "dbname={dbname}".format(**vars())
             )
             logger.debug('Connected successfully.')
