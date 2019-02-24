@@ -7,5 +7,4 @@ sqlalchemy
 sqlalchemy_utils
 sqllogformatter
 psycopg2
-pytest
 redis
