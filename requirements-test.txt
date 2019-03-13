@@ -6,5 +6,5 @@ typing; python_version < '3.5'
 sqlalchemy
 sqlalchemy_utils
 sqllogformatter
-psycopg2
+psycopg2-binary
 redis
