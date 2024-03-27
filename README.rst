@@ -29,12 +29,6 @@ Install
 
     $ pip install dockerctx
 
-For dev, you have to use flit_:
-
-.. code-block:: bash
-
-    $ pip install flit
-    $ flit install
 
 The development-specific requirements will be installed automatically.
 
