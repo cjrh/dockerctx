@@ -83,9 +83,16 @@ def new_container(
         else:
             logger.info('Stopping container %s', name)
             # TODO: container.stop() does not seem to work here (e.g. for postgres)
-            container.kill()
+            try:
+                container.stop(timeout=1)
+            except docker.errors.APIError as e:
+                logger.error('Error stopping container: %s', e)
+
             logger.info('Removing container %s', name)
-            container.remove()
+            try:
+                container.remove(force=True)
+            except docker.errors.APIError as e:
+                logger.error('Error removing container: %s', e)
 
 
 def accepting_connections(host, port, timeout=20):
