@@ -18,17 +18,18 @@ classifiers = [
     "Programming Language :: Python :: 3.6",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-description-file = "README-pypi.rst"
+description-file = "README.rst"
 requires = [
     "docker",
     "typing; python_version < '3.5'",
     "psycopg2-binary",
 ]
-dev-requires = [
+
+[tool.flit.metadata.requires-extra]
+"dev" = [
     "sqlalchemy",
     "sqlalchemy_utils",
     "sqllogformatter",
     "pytest",
     "redis",
 ]
-
