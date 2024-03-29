@@ -65,13 +65,13 @@ def new_container(
     name = str(_() if callable(_) else _)
     client = docker.from_env(version=docker_api_version)
 
-    logger.info('New postgres container: %s', name)
+    logger.info('New container: %s', name)
     container = client.containers.run(
         image_name, name=name, tmpfs=tmpfs, detach=True, ports=ports,
         **kwargs
     )
     try:
-        logger.info('Waiting for postgres to be ready')
+        logger.info('Waiting for container to be ready')
         if ready_test and not ready_test():
             raise ConnectionError(
                 'Container {} not ready fast enough.'.format(name)
@@ -82,7 +82,6 @@ def new_container(
             logger.info('Leaving container up.')
         else:
             logger.info('Stopping container %s', name)
-            # TODO: container.stop() does not seem to work here (e.g. for postgres)
             try:
                 container.stop(timeout=1)
             except docker.errors.APIError as e:
