@@ -1,6 +1,5 @@
-
-.. image:: https://travis-ci.org/cjrh/dockerctx.svg?branch=master
-    :target: https://travis-ci.org/cjrh/dockerctx
+.. image:: https://github.com/cjrh/dockerctx/workflows/Python%20application/badge.svg
+    :target: https://github.com/cjrh/dockerctx/actions
 
 .. image:: https://coveralls.io/repos/github/cjrh/dockerctx/badge.svg?branch=master
     :target: https://coveralls.io/github/cjrh/dockerctx?branch=master
@@ -11,10 +10,13 @@
 .. image:: https://img.shields.io/github/tag/cjrh/dockerctx.svg
     :target: https://github.com/cjrh/dockerctx
 
+.. image:: https://img.shields.io/pypi/v/dockerctx.svg
+    :target: https://img.shields.io/pypi/v/dockerctx.svg
+
 dockerctx
 =========
 
-`dockerctx` is a context manager for managing the lifetime of a docker container.
+*dockerctx* is a context manager for managing the lifetime of a docker container.
 
 The main use case is for setting up scaffolding for running tests, where you want
 something a little broader than *unit tests*, but less heavily integrated than,
@@ -39,7 +41,7 @@ Demo
 
 This is taken from one of the tests:
 
-.. code-block:: python
+.. code-block:: python3
 
     import time
     import redis
@@ -89,4 +91,3 @@ In the src, there is another, much more elaborate test which
 #. tears down and removes the container afterwards.
 
 .. _SQLAlchemy: http://www.sqlalchemy.org/
-
