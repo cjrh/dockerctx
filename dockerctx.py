@@ -11,7 +11,7 @@ import typing
 import docker
 
 
-__version__ = '2024.3.1'
+__version__ = '2024.3.2'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
