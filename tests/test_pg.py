@@ -72,7 +72,7 @@ def test_pg():
     with new_container(
             image_name='postgres:alpine',
             ports={'5432/tcp': port},
-            ready_test=lambda: pg_ready('127.0.0.1', port, timeout=20000),
+            ready_test=lambda: pg_ready('127.0.0.1', port),
             # Travis CI fails otherwise :`(
             docker_api_version='1.24',
             environment={'POSTGRES_PASSWORD': 'password'}
