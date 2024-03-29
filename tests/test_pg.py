@@ -72,12 +72,14 @@ def test_pg():
     with new_container(
             image_name='postgres:alpine',
             ports={'5432/tcp': port},
-            ready_test=lambda: pg_ready('localhost', port),
+            ready_test=lambda: pg_ready('127.0.0.1', port, timeout=20000),
             # Travis CI fails otherwise :`(
-            docker_api_version='1.24') as container:
+            docker_api_version='1.24',
+            environment={'POSTGRES_PASSWORD': 'password'}
+    ) as container:
         logger.debug(container.name)
 
-        url = "postgres://postgres@localhost:%d/mydb" % port
+        url = "postgresql://postgres:password@127.0.0.1:%d/mydb" % port
         logger.info('create engine')
         if not database_exists(url):
             logger.info('create database')
