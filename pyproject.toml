@@ -1,43 +1,60 @@
 [build-system]
-requires = ["flit_core >=3.12.0,<4"]
-build-backend = "flit_core.buildapi"
+requires = ["uv_build>=0.11.16,<0.12"]
+build-backend = "uv_build"
 
-[tool.flit.metadata]
-module = "dockerctx"
-author = "Caleb Hattingh"
-author-email = "caleb.hattingh@gmail.com"
-home-page = "https://github.com/cjrh/dockerctx"
+[project]
+name = "dockerctx"
+version = "2024.3.2"
+description = "A context manager for a docker container."
+readme = "README.rst"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Caleb Hattingh", email = "caleb.hattingh@gmail.com" },
+]
 classifiers = [
-    "License :: OSI Approved :: MIT License",
     "Intended Audience :: Developers",
     "Natural Language :: English",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Software Development :: Libraries :: Python Modules",
+    "Operating System :: OS Independent",
 ]
-description-file = "README.rst"
-requires-python = ">=3.10"
-requires = [
+dependencies = [
     "docker",
     "psycopg2-binary",
 ]
 
-[tool.flit.metadata.requires-extra]
-"dev" = [
+[project.urls]
+Homepage = "https://github.com/cjrh/dockerctx"
+
+[tool.uv.build-backend]
+module-root = ""
+
+[dependency-groups]
+test = [
+    "pytest",
+    "pytest-cov",
+    "coverage",
+    "redis",
     "sqlalchemy",
     "sqlalchemy_utils",
     "sqllogformatter",
-    "pytest",
-    "redis",
 ]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
 
 [tool.ruff]
 target-version = "py310"
 
 [tool.ruff.format]
-# Match the existing single-quote convention in dockerctx.py.
+# Match the existing single-quote convention in dockerctx.
 quote-style = "single"
 
 [tool.ruff.lint]

@@ -4,6 +4,7 @@ from __future__ import division, print_function
 
 import socket
 from contextlib import contextmanager
+from importlib.metadata import PackageNotFoundError, version
 import uuid
 import logging
 import time
@@ -11,7 +12,10 @@ import typing
 import docker
 
 
-__version__ = '2024.3.2'
+try:
+    __version__ = version('dockerctx')
+except PackageNotFoundError:
+    __version__ = '0.0.0'
 __all__ = ['new_container']
 logger = logging.getLogger('dockerctx')
 
