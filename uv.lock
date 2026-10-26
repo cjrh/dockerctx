@@ -268,7 +268,7 @@ wheels = [
 
 [[package]]
 name = "dockerctx"
-version = "2026.1.2"
+version = "2026.1.3"
 source = { editable = "." }
 dependencies = [
     { name = "docker" },

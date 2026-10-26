@@ -4,7 +4,7 @@ build-backend = "uv_build"
 
 [project]
 name = "dockerctx"
-version = "2026.1.2"
+version = "2026.1.3"
 description = "A context manager for a docker container."
 readme = "README.rst"
 requires-python = ">=3.10"
