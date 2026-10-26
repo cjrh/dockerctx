@@ -73,8 +73,6 @@ def test_pg():
             image_name='postgres:alpine',
             ports={'5432/tcp': port},
             ready_test=lambda: pg_ready('127.0.0.1', port),
-            # Travis CI fails otherwise :`(
-            docker_api_version='1.24',
             environment={'POSTGRES_PASSWORD': 'password'}
     ) as container:
         logger.debug(container.name)
