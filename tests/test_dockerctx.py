@@ -106,21 +106,19 @@ def test_ready_test_failure_raises_connection_error():
         with new_container(
                 image_name='alpine:latest',
                 command='sleep 30',
-                ready_test=lambda: False,
-                docker_api_version='1.24'):
+                ready_test=lambda: False):
             pytest.fail('Should not reach the body when ready_test fails')
 
 
 def test_persist_keeps_container_running():
     """persist=lambda: True must skip stop+remove. We clean up by hand."""
-    client = docker.from_env(version='1.24')
+    client = docker.from_env(version='auto')
     container_id = None
     try:
         with new_container(
                 image_name='alpine:latest',
                 command='sleep 30',
-                persist=lambda: True,
-                docker_api_version='1.24') as container:
+                persist=lambda: True) as container:
             container_id = container.id
 
         # If persist worked, the container should still exist after exit.
@@ -140,8 +138,7 @@ def test_cleanup_errors_are_logged_not_raised():
     remove() raise docker.errors.APIError; new_container must swallow them."""
     with new_container(
             image_name='alpine:latest',
-            command='sleep 30',
-            docker_api_version='1.24') as container:
+            command='sleep 30') as container:
         # Yank the container out from under the context manager.
         container.remove(force=True)
     # Reaching this line means the APIError branches were exercised and swallowed.
